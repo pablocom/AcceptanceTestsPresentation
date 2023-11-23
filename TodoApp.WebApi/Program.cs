@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TodoApp.WebApi;
 using TodoApp.WebApi.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +19,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+app.MapTodoEndpoints();
 
 await app.RunAsync();
 

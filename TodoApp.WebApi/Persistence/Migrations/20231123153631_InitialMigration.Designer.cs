@@ -12,7 +12,7 @@ using TodoApp.WebApi.Persistence;
 namespace TodoApp.WebApi.Persistence.Migrations
 {
     [DbContext(typeof(TodoDbContext))]
-    [Migration("20231123135607_InitialMigration")]
+    [Migration("20231123153631_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -31,7 +31,7 @@ namespace TodoApp.WebApi.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("IsComplete")
+                    b.Property<bool>("IsCompleted")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Title")
