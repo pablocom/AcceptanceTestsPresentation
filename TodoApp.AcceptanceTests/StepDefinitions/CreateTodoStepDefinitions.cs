@@ -1,0 +1,56 @@
+using System.Net;
+using System.Net.Http.Json;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using TechTalk.SpecFlow.Assist;
+using TodoApp.WebApi.Dtos;
+using TodoApp.WebApi.Persistence;
+
+namespace TodoApp.AcceptanceTests.StepDefinitions;
+
+[Binding]
+public class CreateTodoStepDefinitions
+{
+    private readonly TodoWebApplicationFactory _webApplicationFactory;
+    
+    private TodoDto? _createTodoDto;
+    private HttpResponseMessage? _responseMessage;
+
+    public CreateTodoStepDefinitions(TodoWebApplicationFactory webApplicationFactory)
+    {
+        _webApplicationFactory = webApplicationFactory;
+    }
+    
+    [Given(@"the following data to create a Todo")]
+    public void GivenTheFollowingDataToCreateATodo(Table table)
+    {
+        _createTodoDto = table.CreateInstance<TodoDto>();
+    }
+
+    [When(@"the Todo is created")]
+    public async Task WhenTheTodoIsCreated()
+    {
+        using var client = _webApplicationFactory.CreateClient();
+
+        _responseMessage = await client.PostAsync("/todos", JsonContent.Create(_createTodoDto));
+    }
+
+    [Then(@"the created Todo should have the following data")]
+    public async Task ThenTheCreatedTodoShouldHaveTheFollowingData(Table table)
+    {
+        _responseMessage!.StatusCode.Should().Be(HttpStatusCode.OK);
+        
+        var expectedTodo = table.CreateInstance<TodoData>();
+        
+        await using var scope = _webApplicationFactory.Services.CreateAsyncScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
+
+        var todo = await dbContext.Todos.SingleAsync();
+
+        todo.Id.Should().Be(expectedTodo.Id);
+        todo.Title.Should().Be(expectedTodo.Title);
+        todo.IsCompleted.Should().Be(expectedTodo.IsCompleted);
+    }
+
+    record TodoData(Guid Id, string Title, bool IsCompleted);
+}

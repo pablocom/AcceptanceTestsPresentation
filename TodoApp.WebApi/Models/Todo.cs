@@ -4,16 +4,16 @@ public class Todo
 {
     public Guid Id { get; init; }
     public string Title { get; private set; } = default!;
-    public bool IsComplete { get; private set; }
+    public bool IsCompleted { get; private set; }
 
     private Todo() { }
 
-    public Todo(Guid id, string title, bool isComplete)
+    public Todo(Guid id, string title, bool isCompleted)
     {
         ArgumentNullException.ThrowIfNull(title);
 
         Id = id;
         Title = title;
-        IsComplete = isComplete;
+        IsCompleted = isCompleted;
     }
 }
