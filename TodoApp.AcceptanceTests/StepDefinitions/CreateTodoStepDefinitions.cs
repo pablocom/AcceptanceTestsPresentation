@@ -21,13 +21,13 @@ public class CreateTodoStepDefinitions
         _webApplicationFactory = webApplicationFactory;
     }
     
-    [Given(@"the following data to create a Todo")]
+    [Given("the following data to create a Todo")]
     public void GivenTheFollowingDataToCreateATodo(Table table)
     {
         _createTodoDto = table.CreateInstance<TodoDto>();
     }
 
-    [When(@"the Todo is created")]
+    [When("the Todo is created")]
     public async Task WhenTheTodoIsCreated()
     {
         using var client = _webApplicationFactory.CreateClient();
@@ -35,7 +35,7 @@ public class CreateTodoStepDefinitions
         _responseMessage = await client.PostAsync("/todos", JsonContent.Create(_createTodoDto));
     }
 
-    [Then(@"the created Todo should have the following data")]
+    [Then("the created Todo should have the following data")]
     public async Task ThenTheCreatedTodoShouldHaveTheFollowingData(Table table)
     {
         _responseMessage!.StatusCode.Should().Be(HttpStatusCode.OK);
