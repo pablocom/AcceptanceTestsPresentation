@@ -1,0 +1,17 @@
+version: "3.8"
+
+services: 
+    database:
+        image: postgres:16.1
+        container_name: acceptance_tests_database
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        ports:
+            - "5432:5432"
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready"]
+            interval: 3s
+            timeout: 30s
+            retries: 15
+    
