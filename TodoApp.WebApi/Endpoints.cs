@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using TodoApp.WebApi.Dtos;
 using TodoApp.WebApi.Models;
 using TodoApp.WebApi.Persistence;
@@ -6,18 +7,18 @@ namespace TodoApp.WebApi;
 
 public static class Endpoints
 {
-    public static IEndpointRouteBuilder MapTodoEndpoints(this IEndpointRouteBuilder app)
+    public static void MapTodoEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("todos");
+        app.MapPost("todos", CreateTodo);
+    }
 
-        group.MapPost("", async (TodoDbContext dbContext, TodoDto dto) =>
-        {
-            var todo = new Todo(dto.Id, dto.Title, dto.IsCompleted);
+    private static async Task<IResult> CreateTodo([FromServices] TodoDbContext dbContext, [FromBody] TodoDto dto)
+    {
+        var todo = new Todo(dto.Id, dto.Title, dto.IsCompleted);
 
-            dbContext.Add(todo);
-            await dbContext.SaveChangesAsync();
-        });
+        dbContext.Add(todo);
+        await dbContext.SaveChangesAsync();
         
-        return app;
+        return Results.Ok();
     }
 }

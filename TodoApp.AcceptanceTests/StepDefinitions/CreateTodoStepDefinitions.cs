@@ -39,17 +39,16 @@ public class CreateTodoStepDefinitions
     public async Task ThenTheCreatedTodoShouldHaveTheFollowingData(Table table)
     {
         _responseMessage!.StatusCode.Should().Be(HttpStatusCode.OK);
-        
-        var expectedTodo = table.CreateInstance<TodoData>();
-        
+
         await using var scope = _webApplicationFactory.Services.CreateAsyncScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
 
-        var todo = await dbContext.Todos.SingleAsync();
+        var expectedTodo = table.CreateInstance<TodoData>();
+        var createdTodo = await dbContext.Todos.SingleAsync();
 
-        todo.Id.Should().Be(expectedTodo.Id);
-        todo.Title.Should().Be(expectedTodo.Title);
-        todo.IsCompleted.Should().Be(expectedTodo.IsCompleted);
+        createdTodo.Id.Should().Be(expectedTodo.Id);
+        createdTodo.Title.Should().Be(expectedTodo.Title);
+        createdTodo.IsCompleted.Should().Be(expectedTodo.IsCompleted);
     }
 
     record TodoData(Guid Id, string Title, bool IsCompleted);
