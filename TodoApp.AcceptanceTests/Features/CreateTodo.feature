@@ -1,4 +1,4 @@
-Feature: CreateTodo
+Feature: Create Todo
 	
 Scenario: Creates a new todo
 	Given the following data to create a Todo

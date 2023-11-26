@@ -9,7 +9,7 @@ using TodoApp.WebApi.Persistence;
 namespace TodoApp.AcceptanceTests.StepDefinitions;
 
 [Binding]
-public class CreateTodoStepDefinitions
+public sealed class CreateTodoStepDefinitions
 {
     private readonly TodoWebApplicationFactory _webApplicationFactory;
     
@@ -50,6 +50,4 @@ public class CreateTodoStepDefinitions
         createdTodo.Title.Should().Be(expectedTodo.Title);
         createdTodo.IsCompleted.Should().Be(expectedTodo.IsCompleted);
     }
-
-    record TodoData(Guid Id, string Title, bool IsCompleted);
 }
