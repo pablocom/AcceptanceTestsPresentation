@@ -25,8 +25,10 @@ public sealed class DeleteTodoStepDefinitions
         var dbContext = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
 
         var rows = table.CreateSet<TodoData>();
-        foreach (var row in rows) 
+        foreach (var row in rows)
+        {
             dbContext.Add(new Todo(row.Id, row.Title, row.IsCompleted));
+        }
 
         await dbContext.SaveChangesAsync();
     }
@@ -39,15 +41,17 @@ public sealed class DeleteTodoStepDefinitions
         _responseMessage = await client.DeleteAsync($"/todos/{id}");
     }
 
-    [Then(@"the todo with ID ""(.*)"" should no longer exist")]
-    public async Task ThenTheTodoWithIdShouldNoLongerExist(Guid id)
+    [Then("the remaining todos should be")]
+    public async Task ThenTheRemainingTodosShouldBe(Table table)
     {
         _responseMessage!.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         await using var scope = _webApplicationFactory.Services.CreateAsyncScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
 
-        var isTodoPresent = await dbContext.Todos.AnyAsync(x => x.Id == id);
-        isTodoPresent.Should().BeFalse();
+        var expectedTodos = table.CreateSet<TodoData>();
+        var actualTodos = await dbContext.Todos.ToListAsync();
+        
+        actualTodos.Should().BeEquivalentTo(expectedTodos);
     }
 }
