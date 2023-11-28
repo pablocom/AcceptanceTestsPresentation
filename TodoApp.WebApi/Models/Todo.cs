@@ -1,8 +1,8 @@
 ﻿namespace TodoApp.WebApi.Models;
 
-public class Todo
+public sealed class Todo
 {
-    public Guid Id { get; init; }
+    public Guid Id { get; private init; }
     public string Title { get; private set; } = default!;
     public bool IsCompleted { get; private set; }
 
