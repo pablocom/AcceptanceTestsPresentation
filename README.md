@@ -16,18 +16,16 @@ This repository hosts a sample project demonstrating the integration of SpecFlow
 
 ### Prerequisites
 
-- .NET SDK (version specifics)
-- SpecFlow
-- An IDE (e.g., Visual Studio, Visual Studio Code)
+- .NET 8 SDK
+- Entity Framework Core CLI tools
+- Preferably: An IDE (e.g., Visual Studio, Visual Studio Code) with the SpecFlow plugin
 - A SQL database (specific version or docker container)
 
-### Installation
+### Installation guide
 
-> Prerequisites: .NET 8 SDK and docker.
-
-1. Clone the repository to your local machine
-2. (Prerequisite, have docker installed) Run the db in docker by executing: `docker compose up -d`.
-3. Run: `dotnet test`.
-4. Install LivingDoc plugin: `dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI`  ([Official docs](https://docs.specflow.org/projects/specflow-livingdoc/en/latest/LivingDocGenerator/Installing-the-command-line-tool.html#installing-specflow-plus-livingdoc-cli))
-5. Generate Acceptance Tests report as living documentation: `livingdoc test-assembly .\TodoApp.AcceptanceTests\bin\Debug\net8.0\TodoApp.AcceptanceTests.dll -t .\TodoApp.AcceptanceTests\bin\Debug\net8.0\TestExecution.json -o LivingDocOutput/TodoApp.AcceptanceTests.html`
-
+1. Clone the repository
+2. Run the db in a docker container: `docker compose up -d`.
+3. Execute db migrations: `dotnet ef database update -p .\TodoApp.WebApi\TodoApp.WebApi.csproj`
+4. Run: `dotnet test`.
+5. Install LivingDoc plugin: `dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI`  ([Official docs](https://docs.specflow.org/projects/specflow-livingdoc/en/latest/LivingDocGenerator/Installing-the-command-line-tool.html#installing-specflow-plus-livingdoc-cli))
+6. Generate Acceptance Tests report as living documentation: `livingdoc test-assembly .\TodoApp.AcceptanceTests\bin\Debug\net8.0\TodoApp.AcceptanceTests.dll -t .\TodoApp.AcceptanceTests\bin\Debug\net8.0\TestExecution.json -o LivingDocOutput/TodoApp.AcceptanceTests.html`
