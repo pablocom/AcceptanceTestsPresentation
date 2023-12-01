@@ -3,11 +3,11 @@ using BoDi;
 namespace TodoApp.AcceptanceTests.Hooks;
 
 [Binding]
-public sealed class WebApplicationFactoryRegistrationHook
+public sealed class TodoWebApplicationFactoryRegistrationHook
 {
     private readonly IObjectContainer _objectContainer;
 
-    public WebApplicationFactoryRegistrationHook(IObjectContainer objectContainer)
+    public TodoWebApplicationFactoryRegistrationHook(IObjectContainer objectContainer)
     {
         _objectContainer = objectContainer;
     }
@@ -20,4 +20,13 @@ public sealed class WebApplicationFactoryRegistrationHook
         
         _objectContainer.RegisterInstanceAs(TodoWebApplicationFactoryHolder.Instance);
     }
+}
+
+[Binding]
+public sealed class TodoWebApplicationFactoryHolder
+{
+    public static TodoWebApplicationFactory Instance { get; private set; } = default!;
+
+    [BeforeTestRun]
+    public static void InitializeWebApplicationFactory() => Instance = new();
 }

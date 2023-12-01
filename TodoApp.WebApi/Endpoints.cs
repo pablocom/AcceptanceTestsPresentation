@@ -26,7 +26,7 @@ public static class Endpoints
 
     private static async Task<IResult> DeleteTodo([FromServices] TodoDbContext dbContext, [FromRoute] Guid id)
     {
-        var todoToDelete = await dbContext.Todos.FirstOrDefaultAsync(x => x.Id == id);
+        var todoToDelete = await dbContext.Todos.FirstAsync(x => x.Id == id);
         dbContext.Remove(todoToDelete);
         
         await dbContext.SaveChangesAsync();
