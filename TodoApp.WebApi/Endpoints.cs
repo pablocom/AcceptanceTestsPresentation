@@ -11,7 +11,7 @@ public static class Endpoints
     public static void MapTodoEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapPost("todos", CreateTodo);
-        app.MapDelete("todos/{id}", DeleteTodo);
+        app.MapDelete("todos/{id:guid}", DeleteTodo);
     }
 
     private static async Task<IResult> CreateTodo([FromServices] TodoDbContext dbContext, [FromBody] TodoDto dto)

@@ -1,14 +1,13 @@
 using System.Net;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using TechTalk.SpecFlow.Assist;
 using TodoApp.WebApi.Models;
 using TodoApp.WebApi.Persistence;
 
 namespace TodoApp.AcceptanceTests.StepDefinitions;
 
 [Binding]
-public class DeleteTodoStepDefinitions
+public sealed class DeleteTodoStepDefinitions
 {
     private readonly TodoWebApplicationFactory _webApplicationFactory;
     private HttpResponseMessage? _responseMessage;
@@ -18,8 +17,8 @@ public class DeleteTodoStepDefinitions
         _webApplicationFactory = webApplicationFactory;
     }
     
-    [Given(@"the existing todos")]
-    public async Task GivenTheExistingTodos(Table table)
+    [Given(@"the existing todosa")]
+    public async Task GivenTheExistingTodos(DataTable table)
     {
         await using var scope = _webApplicationFactory.Services.CreateAsyncScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
@@ -43,7 +42,7 @@ public class DeleteTodoStepDefinitions
 
 
     [Then(@"the remaining todos should be")]
-    public async Task ThenTheRemainingTodosShouldBe(Table table)
+    public async Task ThenTheRemainingTodosShouldBe(DataTable table)
     {
         _responseMessage!.StatusCode.Should().Be(HttpStatusCode.OK);
         

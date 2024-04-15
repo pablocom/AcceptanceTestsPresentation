@@ -2,7 +2,6 @@ using System.Net;
 using System.Net.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using TechTalk.SpecFlow.Assist;
 using TodoApp.WebApi.Dtos;
 using TodoApp.WebApi.Persistence;
 
@@ -22,7 +21,7 @@ public sealed class CreateTodoStepDefinitions
     }
     
     [Given("the following data to create a Todo")]
-    public void GivenTheFollowingDataToCreateATodo(Table table)
+    public void GivenTheFollowingDataToCreateATodo(DataTable table)
     {
         _createTodoDto = table.CreateInstance<TodoDto>();
     }
@@ -36,7 +35,7 @@ public sealed class CreateTodoStepDefinitions
     }
 
     [Then("the created Todo should have the following data")]
-    public async Task ThenTheCreatedTodoShouldHaveTheFollowingData(Table table)
+    public async Task ThenTheCreatedTodoShouldHaveTheFollowingData(DataTable table)
     {
         _responseMessage!.StatusCode.Should().Be(HttpStatusCode.OK);
 
