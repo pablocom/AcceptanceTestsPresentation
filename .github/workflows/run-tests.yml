@@ -1,0 +1,49 @@
+name: Run Tests
+
+on:
+  push:
+
+jobs:
+  build-and-run-tests:
+    name: Build solution and run tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16.1
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: acceptance_tests_db
+        ports:
+          - 5432:5432
+        options: --user postgres --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Setup .NET SDK 8.0.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+          
+      - name: Restore NuGet packages
+        run: dotnet restore -r 'linux-x64'
+        
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+        
+      - name: Generate EntityFramework migrations bundle
+        run: |
+          dotnet tool install --global dotnet-ef
+          dotnet tool restore
+          cd /home/runner/work/AcceptanceTestsPresentation/AcceptanceTestsPresentation/
+          dotnet ef migrations bundle -p ./TodoApp.WebApi/TodoApp.WebApi.csproj -o 'AcceptanceTests.efbundle.exe' --verbose
+      
+      - name: Run EntityFramework migrations
+        run: ./AcceptanceTests.efbundle.exe --connection 'User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=acceptance_tests_db;'
+      
+      - name: Run acceptance tests
+        env:
+          ConnectionStrings__Database: User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=acceptance_tests_db;
+        run: dotnet test TodoApp.AcceptanceTests

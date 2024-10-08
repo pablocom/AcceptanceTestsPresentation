@@ -17,7 +17,7 @@ public sealed class DeleteTodoStepDefinitions
         _webApplicationFactory = webApplicationFactory;
     }
     
-    [Given(@"the existing todosa")]
+    [Given(@"the existing todos")]
     public async Task GivenTheExistingTodos(DataTable table)
     {
         await using var scope = _webApplicationFactory.Services.CreateAsyncScope();

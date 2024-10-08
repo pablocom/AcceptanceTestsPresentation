@@ -7,6 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoApp.WebApi", "TodoApp.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.AcceptanceTests", "TodoApp.AcceptanceTests\TodoApp.AcceptanceTests.csproj", "{91801905-1CD6-432B-BA79-5BD2CA0EF333}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{FB952C94-A0CC-4AFA-A32D-1E3CDC434BDA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pipelines", "Pipelines", "{EE8C1123-6EF2-406B-844A-E7FB76785164}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\run-tests.yml = .github\workflows\run-tests.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,5 +34,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {86ACF700-AB7B-4565-AAF6-164809796D89}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EE8C1123-6EF2-406B-844A-E7FB76785164} = {FB952C94-A0CC-4AFA-A32D-1E3CDC434BDA}
 	EndGlobalSection
 EndGlobal
