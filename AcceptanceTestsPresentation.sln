@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.AcceptanceTests", "TodoApp.AcceptanceTests\TodoApp.AcceptanceTests.csproj", "{91801905-1CD6-432B-BA79-5BD2CA0EF333}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{FB952C94-A0CC-4AFA-A32D-1E3CDC434BDA}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pipelines", "Pipelines", "{EE8C1123-6EF2-406B-844A-E7FB76785164}"
 	ProjectSection(SolutionItems) = preProject
